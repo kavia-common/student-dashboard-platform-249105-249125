@@ -8,23 +8,23 @@ import { Card, EmptyState } from "@/components/UI";
 import { useAuth } from "@/components/AuthProvider";
 
 type Announcement = {
-  id: number;
+  id: string;
   title: string;
-  content: string;
-  created_at?: string;
+  body: string;
+  posted_at?: string;
 };
 
 type Todo = {
-  id: number;
-  text: string;
-  completed: boolean;
-  due_date?: string | null;
+  id: string;
+  title: string;
+  status: string;
+  due_at?: string | null;
 };
 
 type Assignment = {
-  id: number;
+  id: string;
   title: string;
-  due_date?: string | null;
+  due_at?: string | null;
   status?: string;
 };
 
@@ -99,7 +99,7 @@ export default function DashboardPage() {
                     {assignments.map((x) => (
                       <tr key={x.id}>
                         <td>{x.title}</td>
-                        <td>{x.due_date ? new Date(x.due_date).toLocaleDateString() : "—"}</td>
+                        <td>{x.due_at ? new Date(x.due_at).toLocaleDateString() : "—"}</td>
                         <td>{x.status ?? "—"}</td>
                       </tr>
                     ))}
@@ -125,11 +125,11 @@ export default function DashboardPage() {
                             {x.title}
                           </div>
                           <div className="muted small">
-                            {x.created_at ? new Date(x.created_at).toLocaleDateString() : ""}
+                            {x.posted_at ? new Date(x.posted_at).toLocaleDateString() : ""}
                           </div>
                         </div>
                         <p className="muted small" style={{ marginTop: 6 }}>
-                          {x.content}
+                          {x.body}
                         </p>
                       </div>
                     </div>
@@ -149,9 +149,10 @@ export default function DashboardPage() {
                 <ul style={{ listStyle: "none", display: "grid", gap: 8 }}>
                   {todos.map((t) => (
                     <li key={t.id} className="kvRow">
-                      <div style={{ fontFamily: "var(--mono)", fontWeight: 900 }}>{t.text}</div>
+                      <div style={{ fontFamily: "var(--mono)", fontWeight: 900 }}>{t.title}</div>
                       <div className="muted small">
-                        Due: {t.due_date ? new Date(t.due_date).toLocaleDateString() : "—"}
+                        {t.status ? `Status: ${t.status}` : null}{" "}
+                        • Due: {t.due_at ? new Date(t.due_at).toLocaleDateString() : "—"}
                       </div>
                     </li>
                   ))}
